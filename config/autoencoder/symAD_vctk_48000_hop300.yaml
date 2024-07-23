@@ -13,12 +13,12 @@ sampling_rate: &sampling_rate 16000
 gpus: '0,1,2,3'
 # gpus_gen: '0,1,2,3'
 # gpus_disc: '0,1,2,3'
-save_path: "/dlbimg/NAV-RIR_Project/AV_RIR_Estimate1_n1/outputs/RIR1"
+save_path: "outputs/Train_Estimated_RIR"
 data:
     data_path: "/dlbimg/NAV-RIR_Project/dataset/"
     
     subset:
-        train: "/dlbimg/NAV-RIR_Project/reverb_convolve/train_test.pickle"
+        train: "/dlbimg/NAV-RIR_Project/reverb_convolve/train.pickle"
         valid: "/dlbimg/NAV-RIR_Project/reverb_convolve/val.pickle"
         test:  "/dlbimg/NAV-RIR_Project/reverb_convolve/test.pickle"
 ###########################################################
