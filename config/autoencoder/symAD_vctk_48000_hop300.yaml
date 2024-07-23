@@ -1,0 +1,208 @@
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+#
+# Reference (https://github.com/kan-bayashi/ParallelWaveGAN/)
+
+
+###########################################################
+#                   DATA SETTING                          #
+###########################################################
+sampling_rate: &sampling_rate 16000
+gpus: '0,1,2,3'
+# gpus_gen: '0,1,2,3'
+# gpus_disc: '0,1,2,3'
+save_path: "/dlbimg/NAV-RIR_Project/AV_RIR_Estimate1_n1/outputs/RIR1"
+data:
+    data_path: "/dlbimg/NAV-RIR_Project/dataset/"
+    
+    subset:
+        train: "/dlbimg/NAV-RIR_Project/reverb_convolve/train_test.pickle"
+        valid: "/dlbimg/NAV-RIR_Project/reverb_convolve/val.pickle"
+        test:  "/dlbimg/NAV-RIR_Project/reverb_convolve/test.pickle"
+###########################################################
+#                   MODEL SETTING                         #
+###########################################################
+model_type: symAudioDec
+train_mode: autoencoder
+paradigm: notefficient
+
+generator_params:
+    input_channels: 1
+    output_channels_rir: 1
+    encode_channels: 16
+    decode_channels: 16
+    code_dim: 128
+    codebook_num: 64
+    codebook_size: 8192
+    bias: true
+    combine_enc_ratios: []
+    seperate_enc_ratios_rir:  [2,4, 8, 12, 16, 32]
+    rir_dec_ratios: [256,128,64, 32, 32,32,16]
+    combine_enc_strides: []
+    seperate_enc_strides_rir: [2,2, 3, 5, 5, 5]
+    rir_dec_strides:   [5,5,2, 2,2,1,1]
+    mode: 'causal'
+    codec: 'audiodec'
+    projector: 'conv1d'
+    quantier: 'residual_vq'
+
+
+    
+###########################################################
+#                 METRIC LOSS SETTING                     #
+###########################################################
+use_mse_loss_rir: true                   # Whether to use Time-Domain MSE loss.
+use_edc_loss_rir: false                   # Whether to use Energy Decay Curve Loss
+# use_mel_loss: true                   # Whether to use Mel-spectrogram loss.
+# use_mel_loss_rir: true                   # Whether to use Mel-spectrogram loss.
+# mel_loss_params:
+    # fs: *sampling_rate
+    # fft_sizes: [1024, 2048, 512]
+    # hop_sizes: [120, 240, 50]
+    # win_lengths: [600, 1200, 240]
+    # window: "hann_window"
+    # num_mels: 320
+    # fmin: 0
+    # fmax: 16000
+    # log_base: null
+
+use_stft_loss: false                 # Whether to use multi-resolution STFT loss.
+use_stft_loss_rir: false                 # Whether to use multi-resolution STFT loss.
+stft_loss_params:
+    fft_sizes: [4096,1024, 2048, 512,256,125,64,32]     # List of FFT size for STFT-based loss.
+    hop_sizes: [480,120, 240, 50,25,12,6,3]        # List of hop size for STFT-based loss
+    win_lengths: [2400,600, 1200, 240,120,60,30,15]    # List of window length for STFT-based loss.
+    window: "hann_window"            # Window function for STFT-based loss
+
+# use_shape_loss: false                # Whether to use waveform shape loss.
+# use_shape_loss_rir: false                # Whether to use waveform shape loss.
+# shape_loss_params:
+#     winlen: [100,300,500,1000]
+
+###########################################################
+#                  ADV LOSS SETTING                       #
+###########################################################
+generator_adv_loss_params:
+    average_by_discriminators: false # Whether to average loss by #discriminators.
+
+discriminator_adv_loss_params:
+    average_by_discriminators: false # Whether to average loss by #discriminators.
+
+use_feat_match_loss: true
+feat_match_loss_params:
+    average_by_discriminators: false # Whether to average loss by #discriminators.
+    average_by_layers: false         # Whether to average loss by #layers in each discriminator.
+    include_final_outputs: false     # Whether to include final outputs in feat match loss calculation.
+
+###########################################################
+#                  LOSS WEIGHT SETTING                    #
+###########################################################
+lambda_adv: 1.0          # Loss weight of adversarial loss.
+lambda_feat_match: 2.0   # Loss weight of feat match loss.
+lambda_vq_loss: 1.0      # Loss weight of vector quantize loss.
+lambda_mel_loss: 45.0    # Loss weight of mel-spectrogram spectloss.
+lambda_stft_loss: 45.0   # Loss weight of multi-resolution stft loss.
+lambda_shape_loss: 45.0  # Loss weight of multi-window shape loss.
+lambda_mse_loss: 1.0  # Loss weight of time-domain mse loss.
+lambda_edc_loss: 10.0  # Loss weight of time-domain edc loss
+
+
+###########################################################
+#                  DATA LOADER SETTING                    #
+###########################################################
+batch_size: 64           # Batch size.
+batch_length: 16000          # Length of each audio in batch (training w/o adv). Make sure dividable by hop_size.
+adv_batch_length: 16000      # Length of each audio in batch (training w/ adv). Make sure dividable by hop_size.
+pin_memory: false            # Whether to pin memory in Pytorch DataLoader.
+num_workers: 32              # Number of workers in Pytorch DataLoader.
+
+###########################################################
+#             OPTIMIZER & SCHEDULER SETTING               #
+###########################################################
+
+generator_optimizer_type: RMSprop
+generator_optimizer_params:
+    lr: 1.0e-5
+  
+# # generator_scheduler_type: StepLR
+# # generator_scheduler_params:
+# #     step_size: 200000      # Generator's scheduler step size.
+# #     gamma: 1.0
+# generator_scheduler_type: MultiStepLR
+# generator_scheduler_params:
+#     gamma: 0.5
+#     milestones:
+#         - 200000 
+#         - 400000 
+#         - 600000 
+#         - 800000 
+
+# generator_grad_norm: -1
+# # discriminator_optimizer_type: Adam
+# # discriminator_optimizer_params:
+# #     lr: 2.0e-4
+# #     betas: [0.5, 0.9]
+# #     weight_decay: 0.0
+
+discriminator_optimizer_type: RMSprop
+discriminator_optimizer_params:
+    lr: 1.0e-5
+
+
+# discriminator_scheduler_type: MultiStepLR
+# discriminator_scheduler_params:
+#     gamma: 0.5
+#     milestones:
+#         - 200000 
+#         - 600000 
+#         - 700000 
+#         - 800000 
+# discriminator_grad_norm: -1
+
+# generator_optimizer_type: Adam
+# generator_optimizer_params:
+#     lr: 0.5e-6
+#     betas: [0.5, 0.9]
+#     weight_decay: 0.0
+# generator_scheduler_type: StepLR
+# generator_scheduler_params:
+#     step_size: 200000      # Generator's scheduler step size.
+#     gamma: 1.0
+generator_scheduler_type: MultiStepLR
+generator_scheduler_params:
+    gamma: 0.8
+    milestones:
+        - 50000 
+        - 100000 
+        - 150000 
+        - 200000 
+        - 250000 
+
+generator_grad_norm: -1
+# discriminator_optimizer_type: Adam
+# discriminator_optimizer_params:
+#     lr: 2.0e-6
+#     betas: [0.5, 0.9]
+#     weight_decay: 0.0
+discriminator_scheduler_type: MultiStepLR
+discriminator_scheduler_params:
+    gamma: 0.5
+    milestones:
+        - 200000 
+        - 600000 
+        - 700000 
+        - 800000 
+discriminator_grad_norm: -1
+###########################################################
+#                    INTERVAL SETTING                     #
+###########################################################
+start_steps:                       # Number of steps to start training
+    generator: 0
+    discriminator: 20000000 
+train_max_steps: 7500000            # Number of training steps. (w/o adv)
+adv_train_max_steps: 4700000         # Number of training steps. (w/ adv)
+save_interval_steps: 20000        # Interval steps to save checkpoint.
+eval_interval_steps: 2000000        # Interval steps to evaluate the network.
+log_interval_steps: 100 #         # Interval steps to record the training log.

@@ -1,0 +1,152 @@
+adv_batch_length: 16000
+adv_train_max_steps: 4700000
+batch_length: 16000
+batch_size: 64
+config: config/autoencoder/symAD_vctk_48000_hop300.yaml
+data:
+  data_path: /dlbimg/NAV-RIR_Project/dataset/
+  subset:
+    test: /dlbimg/NAV-RIR_Project/reverb_convolve/test.pickle
+    train: /dlbimg/NAV-RIR_Project/reverb_convolve/train_test.pickle
+    valid: /dlbimg/NAV-RIR_Project/reverb_convolve/val.pickle
+disable_cudnn: 'False'
+discriminator_adv_loss_params:
+  average_by_discriminators: false
+discriminator_grad_norm: -1
+discriminator_optimizer_params:
+  lr: 1.0e-05
+discriminator_optimizer_type: RMSprop
+discriminator_scheduler_params:
+  gamma: 0.5
+  milestones:
+  - 200000
+  - 600000
+  - 700000
+  - 800000
+discriminator_scheduler_type: MultiStepLR
+eval_interval_steps: 2000000
+exp_root: exp
+feat_match_loss_params:
+  average_by_discriminators: false
+  average_by_layers: false
+  include_final_outputs: false
+generator_adv_loss_params:
+  average_by_discriminators: false
+generator_grad_norm: -1
+generator_optimizer_params:
+  lr: 1.0e-05
+generator_optimizer_type: RMSprop
+generator_params:
+  bias: true
+  code_dim: 128
+  codebook_num: 64
+  codebook_size: 8192
+  codec: audiodec
+  combine_enc_ratios: []
+  combine_enc_strides: []
+  decode_channels: 16
+  encode_channels: 16
+  input_channels: 1
+  mode: causal
+  output_channels_rir: 1
+  projector: conv1d
+  quantier: residual_vq
+  rir_dec_ratios:
+  - 256
+  - 128
+  - 64
+  - 32
+  - 32
+  - 32
+  - 16
+  rir_dec_strides:
+  - 5
+  - 5
+  - 2
+  - 2
+  - 2
+  - 1
+  - 1
+  seperate_enc_ratios_rir:
+  - 2
+  - 4
+  - 8
+  - 12
+  - 16
+  - 32
+  seperate_enc_strides_rir:
+  - 2
+  - 2
+  - 3
+  - 5
+  - 5
+  - 5
+generator_scheduler_params:
+  gamma: 0.8
+  milestones:
+  - 50000
+  - 100000
+  - 150000
+  - 200000
+  - 250000
+generator_scheduler_type: MultiStepLR
+gpus: 0,1,2,3
+lambda_adv: 1.0
+lambda_edc_loss: 10.0
+lambda_feat_match: 2.0
+lambda_mel_loss: 45.0
+lambda_mse_loss: 1.0
+lambda_shape_loss: 45.0
+lambda_stft_loss: 45.0
+lambda_vq_loss: 1.0
+log_interval_steps: 100
+model_type: symAudioDec
+num_workers: 32
+outdir: exp/autoencoder/symAD_vctk_48000_hop300
+paradigm: notefficient
+pin_memory: false
+resume: exp/autoencoder/symAD_vctk_48000_hop300/checkpoint-1000000steps.pkl
+sampling_rate: 16000
+save_interval_steps: 20000
+save_path: /dlbimg/NAV-RIR_Project/AV_RIR_Estimate1_n1/outputs/RIR1
+seed: 1337
+start_steps:
+  discriminator: 20000000
+  generator: 0
+stft_loss_params:
+  fft_sizes:
+  - 4096
+  - 1024
+  - 2048
+  - 512
+  - 256
+  - 125
+  - 64
+  - 32
+  hop_sizes:
+  - 480
+  - 120
+  - 240
+  - 50
+  - 25
+  - 12
+  - 6
+  - 3
+  win_lengths:
+  - 2400
+  - 600
+  - 1200
+  - 240
+  - 120
+  - 60
+  - 30
+  - 15
+  window: hann_window
+tag: autoencoder/symAD_vctk_48000_hop300
+train_max_steps: 7500000
+train_mode: autoencoder
+use_edc_loss_rir: false
+use_feat_match_loss: true
+use_mse_loss_rir: true
+use_stft_loss: false
+use_stft_loss_rir: false
