@@ -87,6 +87,11 @@ Our model is built using the architectures from [**S2IR**](https://ieeexplore.ie
 }
 ```
 
+
+
+
+
+
 If you use [**SoundSpaces-NVAS dataset**](https://ieeexplore.ieee.org/document/10204911), please consider citing
 
 ```
@@ -101,6 +106,11 @@ If you use [**SoundSpaces-NVAS dataset**](https://ieeexplore.ieee.org/document/1
   keywords={Location awareness;Visualization;Computational modeling;Transforms;Benchmark testing;Rendering (computer graphics);Pattern recognition;Multi-modal learning},
   doi={10.1109/CVPR52729.2023.00620}}
 ```
+
+
+
+
+
 
 If you use [**LibriSpeech dataset**](https://ieeexplore.ieee.org/document/7178964). please consider citing
 
