@@ -93,7 +93,7 @@ class TestGEN(abc.ABC):
         with torch.no_grad(), tqdm(self.dataset, desc="[test]") as pbar:
             print("lenght dataset ", {len(self.dataset)})
             i=0
-            outdir  ="/dlbimg/Survey_Output/RIR_estimate/"
+            outdir  ="outputs/Test_Estimated_RIR/"
 
             for idx, x_list in enumerate(pbar, 1):
                 i=i+1
