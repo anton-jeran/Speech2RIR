@@ -59,7 +59,7 @@ To resume training on a saved model at a particular step (e.g., 1,000,000 steps)
 bash submit_autoencoder.sh --start 1 --stop 1 --resumepoint 1000000 --tag_name "autoencoder/symAD_vctk_48000_hop300"
 ```
 
-# Requirements
+# Citations
 
 Our model is built using the architectures from [**S2IR**](https://ieeexplore.ieee.org/abstract/document/10094770/citations?tabFilter=papers#citations) and [**AV-RIR**](https://openaccess.thecvf.com/content/CVPR2024/html/Ratnarajah_AV-RIR_Audio-Visual_Room_Impulse_Response_Estimation_CVPR_2024_paper.html). If you use our **Speech2RIR**, please consider citing
 
