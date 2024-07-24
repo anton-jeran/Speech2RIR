@@ -15,12 +15,12 @@ gpus: '0,1,2,3'
 # gpus_disc: '0,1,2,3'
 save_path: "outputs/Train_Estimated_RIR"
 data:
-    data_path: "/dlbimg/NAV-RIR_Project/dataset/"
+    data_path: "data/"
     
     subset:
-        train: "/dlbimg/NAV-RIR_Project/reverb_convolve/train.pickle"
-        valid: "/dlbimg/NAV-RIR_Project/reverb_convolve/val.pickle"
-        test:  "/dlbimg/NAV-RIR_Project/reverb_convolve/test.pickle"
+        train: "train.pickle"
+        valid: "val.pickle"
+        test:  "test.pickle"
 ###########################################################
 #                   MODEL SETTING                         #
 ###########################################################
