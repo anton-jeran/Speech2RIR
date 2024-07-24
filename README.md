@@ -43,7 +43,7 @@ python3 augment_speech_100.py --pickle test.pickle
 ```
 
 # Download Trained Model
-To download our trained with checkpoint at **400,000** Run the following command
+To download our trained with checkpoint at **1,040,000** Run the following command
 
 ```
 source download_model.sh
@@ -62,10 +62,10 @@ To train our network, run the following command
 ```
 bash submit_autoencoder.sh --start 0 --stop 0 --tag_name "autoencoder/symAD_vctk_48000_hop300"
 ```
-To resume training on a saved model at a particular step (e.g., 400,000 steps) run the following command
+To resume training on a saved model at a particular step (e.g., 1,040,000 steps) run the following command
 
 ```
-bash submit_autoencoder.sh --start 1 --stop 1 --resumepoint 400000 --tag_name "autoencoder/symAD_vctk_48000_hop300"
+bash submit_autoencoder.sh --start 1 --stop 1 --resumepoint 1040000 --tag_name "autoencoder/symAD_vctk_48000_hop300"
 ```
 
 # Citations
