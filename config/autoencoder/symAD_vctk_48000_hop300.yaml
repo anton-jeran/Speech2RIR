@@ -15,7 +15,7 @@ gpus: '0,1,2,3'
 # gpus_disc: '0,1,2,3'
 save_path: "outputs/Train_Estimated_RIR"
 data:
-    data_path: "data/"
+    data_path: ""
     
     subset:
         train: "train.pickle"
