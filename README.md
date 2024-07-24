@@ -36,7 +36,9 @@ Run the following commands to augment **Reverberant Speech** to train and test.
 ```
 ./batch_flac2wav.sh data/LibriSpeech-wav
  python3 pickle_generator.py
-
+python3 augment_speech_100.py --pickle train.pickle
+python3 augment_speech_100.py --pickle val.pickle
+python3 augment_speech_100.py --pickle test.pickle
 ```
 
 # Download Trained Model
