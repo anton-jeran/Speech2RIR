@@ -38,9 +38,9 @@ stop=1000
 # stage 0: training
 # stage 1: resuming training from previous saved checkpoint
 # stage 2: testing
-resumepoint=1000000
-encoder_checkpoint=1000000
-decoder_checkpoint=1000000
+resumepoint=1040000
+encoder_checkpoint=1040000
+decoder_checkpoint=1040000
 #resumepoint=500000
 #encoder_checkpoint=500000
 #decoder_checkpoint=1000000
