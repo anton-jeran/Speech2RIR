@@ -31,7 +31,13 @@ bash download_data.sh
 ```
 # Reverberant Speech Augmentation
 
-Run the following scripts to augment **Reverberant Speech** and create pickle file to train and test.
+Run the following commands to augment **Reverberant Speech** to train and test.
+
+```
+./batch_flac2wav.sh data/LibriSpeech-wav
+ python3 pickle_generator.py
+
+```
 
 # Download Trained Model
 To download our trained with checkpoint at **1,000,000** Run the following command
