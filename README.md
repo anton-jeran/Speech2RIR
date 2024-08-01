@@ -28,7 +28,7 @@ sudo apt-get install p7zip-full
 # RIR and Clean Speech Dataset
 Run the following script to download SoundSpaces-NVAS and LibriSpeech Dataset
 ```
-bash download_data.sh
+bash download.sh
 ```
 # Reverberant Speech Augmentation
 
